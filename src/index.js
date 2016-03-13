@@ -36,7 +36,7 @@ var HelloMsg = React.createClass({
 });
 
 ReactDOM.render(
-    <HelloMsg name = "lucy" class = "component-a" />,
+    <HelloMsg name = "115" class = "component-a" />,
     document.getElementById('classDemo')
 );
 
@@ -132,10 +132,17 @@ var CommentList = React.createClass({
 
 //my commentForm
 var CommentForm = React.createClass({
+    getInitialState:function(){
+        return {
+          value:''
+        }
+    },
     handleSubmit: function(e) {   
         e.preventDefault();
         var author = this.refs.author.value.trim();
         var text = this.refs.text.value.trim();
+        //this.refs.author.getDOMNode() 直接获取到组件的 DOM 节点。
+        this.refs.author.getDOMNode().focus();//点击post之后获得焦点
         if (!text || !author) {
           return;
         }
@@ -144,12 +151,22 @@ var CommentForm = React.createClass({
         this.refs.text.value = '';
         return;
     },
+    handleChange:function(e){
+        this.setState({value:e.target.value.substr(0,5)});
+    },
     render:function(){
         return (
             <form className="commentForm" onSubmit={this.handleSubmit}>
-              <input type="text" placeholder="Your name" ref="author" />
+              <input type="text"  placeholder="maxLength 5" ref="author" value={this.state.value} onChange = {this.handleChange}/>
               <input type="text" placeholder="Say something..." ref="text" />
               <input type="submit" value="Post" />
+              <input type="radio" name="opt" defaultChecked /> Option 1
+              <input type="radio" name="opt" /> Option 2
+              <select select defaultvalue="B">
+                <option value="A">Apple</option>
+                <option value="B">Banana</option>
+                <option value="C">Cranberry</option>
+              </select>
             </form>
         );
     }
@@ -214,3 +231,83 @@ ReactDOM.render(
 *commentList 是从父组件将listdata传递给子组件进行展示(this.state.data)
 *commentForm 是从子组件把newcommentdata传给父组件进行ajax请求(绑定回调函数)
 */
+
+var LikedShow = React.createClass({
+  getInitialState:function(){
+    return {
+      liked:false
+    }
+  },
+    handleClick:function(){
+      return this.setState({liked:this.state.liked?false:true});
+    },
+
+    render:function(){
+      var text = this.state.liked?'I liked':'I have not liked';
+      return (
+          <p onClick = {this.handleClick}>{text}</p>
+
+        )
+    }
+
+});
+ReactDOM.render(<LikedShow />,document.getElementById('LikedDemo'));
+
+//props 的spread{...this.props} 可以把props的所有属性都传递进来
+//{...other}
+
+var CheackClick = React.createClass({
+    render : function(){
+      return (
+          <a {...this.props}>{this.props.children}</a>
+
+      )
+    }
+});
+ReactDOM.render(
+    <CheackClick href = "http://www.baidu.com">
+        click me!
+    </CheackClick>,document.getElementById('LinkDemo')
+  )
+
+/*react实现一个定时器 一个组件需要定期更新  React 提供 生命周期方法 来告知组件创建或销毁的时间。
+下面来做一个简单的 mixin，使用 setInterval() 并保证在组件销毁时清理定时器。*/
+var SetIntervalMixin = {
+  //componentWillMount()在挂载发生之前立即被调用。
+  componentWillMount: function() {
+    this.intervals = [];
+  },
+  setInterval: function() {
+    this.intervals.push(setInterval.apply(null, arguments));
+  },
+  //componentWillUnmount()在组件移除和销毁之前被调用。清理工作应该放在这里。
+  componentWillUnmount: function() {
+    this.intervals.map(clearInterval);
+  }
+};
+
+var TimeClick = React.createClass({
+    mixins: [SetIntervalMixin], // 引用 mixin
+    getInitialState:function(){
+      return {myseconds:0}
+    },
+    tick : function(){
+        this.setState({myseconds:this.state.myseconds+1});
+    },
+    //componentDidMount()在挂载结束之后马上被调用。需要DOM节点的初始化操作应该放在这里。
+    componentDidMount: function() {
+    this.interval = setInterval(this.tick, 1000); // 调用 mixin 的方法
+  },
+  
+    render:function(){
+      return (
+          <p>the seconds is {this.state.myseconds}</p>
+      )
+    }
+
+});
+ReactDOM.render(
+    <TimeClick />,document.getElementById('TimeDemo')
+  );
+
+

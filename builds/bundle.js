@@ -55,9 +55,9 @@
 	var names = ['jane', 'joe', 'crystal'];
 	var titles = ['It\'s Work!', 'awesome'];
 	ReactDOM.render(React.createElement(
-	    'div',
-	    null,
-	    titles
+	  'div',
+	  null,
+	  titles
 	), document.getElementById('example'));
 
 	// component
@@ -65,92 +65,92 @@
 	// prop validation  http://facebook.github.io/react/docs/reusable-components.html
 	// getDefaultProps
 	var HelloMsg = React.createClass({
-	    displayName: 'HelloMsg',
+	  displayName: 'HelloMsg',
 
-	    getDefaultProps: function getDefaultProps() {
-	        return {
-	            phone: '13512345678'
-	        };
-	    },
-	    propTypes: {
-	        name: React.PropTypes.string.isRequired
-	    },
-	    render: function render() {
-	        return React.createElement(
-	            'h1',
-	            { className: this.props.class },
-	            'hello, ',
-	            this.props.name,
-	            ', ',
-	            this.props.phone
-	        );
-	    }
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      phone: '13512345678'
+	    };
+	  },
+	  propTypes: {
+	    name: React.PropTypes.string.isRequired
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      'h1',
+	      { className: this.props.class },
+	      'hello, ',
+	      this.props.name,
+	      ', ',
+	      this.props.phone
+	    );
+	  }
 	});
 
-	ReactDOM.render(React.createElement(HelloMsg, { name: 'lucy', 'class': 'component-a' }), document.getElementById('classDemo'));
+	ReactDOM.render(React.createElement(HelloMsg, { name: '115', 'class': 'component-a' }), document.getElementById('classDemo'));
 
 	// this.props.children
 	// having no child: undefined
 	// having only one child: object
 	// having two or more children: array
 	var NotesList = React.createClass({
-	    displayName: 'NotesList',
+	  displayName: 'NotesList',
 
-	    render: function render() {
+	  render: function render() {
+	    return React.createElement(
+	      'ol',
+	      null,
+	      React.Children.map(this.props.children, function (child) {
 	        return React.createElement(
-	            'ol',
-	            null,
-	            React.Children.map(this.props.children, function (child) {
-	                return React.createElement(
-	                    'li',
-	                    null,
-	                    child
-	                );
-	            })
+	          'li',
+	          null,
+	          child
 	        );
-	    }
+	      })
+	    );
+	  }
 	});
 
 	ReactDOM.render(React.createElement(
-	    NotesList,
+	  NotesList,
+	  null,
+	  React.createElement(
+	    'span',
 	    null,
-	    React.createElement(
-	        'span',
-	        null,
-	        'hello'
-	    ),
-	    React.createElement(
-	        'span',
-	        null,
-	        'world'
-	    )
+	    'hello'
+	  ),
+	  React.createElement(
+	    'span',
+	    null,
+	    'world'
+	  )
 	), document.getElementById('listDemo'));
 
 	//this.state状态
 
 	var Timer = React.createClass({
-	    displayName: 'Timer',
+	  displayName: 'Timer',
 
-	    getInitialState: function getInitialState() {
-	        return { secondsElapsed: 0 };
-	    },
-	    tick: function tick() {
-	        this.setState({ secondsElapsed: this.state.secondsElapsed + 1 });
-	    },
-	    componentDidMount: function componentDidMount() {
-	        this.interval = setInterval(this.tick, 1000);
-	    },
-	    componentWillUnmount: function componentWillUnmount() {
-	        clearInterval(this.interval);
-	    },
-	    render: function render() {
-	        return React.createElement(
-	            'div',
-	            null,
-	            'Seconds Elapsed: ',
-	            this.state.secondsElapsed
-	        );
-	    }
+	  getInitialState: function getInitialState() {
+	    return { secondsElapsed: 0 };
+	  },
+	  tick: function tick() {
+	    this.setState({ secondsElapsed: this.state.secondsElapsed + 1 });
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.interval = setInterval(this.tick, 1000);
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    clearInterval(this.interval);
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Seconds Elapsed: ',
+	      this.state.secondsElapsed
+	    );
+	  }
 	});
 
 	ReactDOM.render(React.createElement(Timer, null), document.getElementById('ButtonDemo'));
@@ -161,68 +161,101 @@
 	//my comment
 
 	var Comment = React.createClass({
-	    displayName: 'Comment',
+	  displayName: 'Comment',
 
-	    render: function render() {
-	        return React.createElement(
-	            'div',
-	            { className: 'comments' },
-	            React.createElement(
-	                'h2',
-	                { className: 'commentsAuthor' },
-	                this.props.author
-	            ),
-	            this.props.children
-	        );
-	    }
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'comments' },
+	      React.createElement(
+	        'h2',
+	        { className: 'commentsAuthor' },
+	        this.props.author
+	      ),
+	      this.props.children
+	    );
+	  }
 	});
 
 	//my commentList
 	var CommentList = React.createClass({
-	    displayName: 'CommentList',
+	  displayName: 'CommentList',
 
-	    render: function render() {
-	        var commentNodes = this.props.data.map(function (commentdata) {
-	            return React.createElement(
-	                Comment,
-	                { author: commentdata.author },
-	                commentdata.text
-	            );
-	        });
-	        return React.createElement(
-	            'div',
-	            { className: 'CommentList' },
-	            'Hello, world! I am a CommentList.',
-	            commentNodes
-	        );
-	    }
+	  render: function render() {
+	    var commentNodes = this.props.data.map(function (commentdata) {
+	      return React.createElement(
+	        Comment,
+	        { author: commentdata.author },
+	        commentdata.text
+	      );
+	    });
+	    return React.createElement(
+	      'div',
+	      { className: 'CommentList' },
+	      'Hello, world! I am a CommentList.',
+	      commentNodes
+	    );
+	  }
 	});
 
 	//my commentForm
 	var CommentForm = React.createClass({
-	    displayName: 'CommentForm',
+	  displayName: 'CommentForm',
 
-	    handleSubmit: function handleSubmit(e) {
-	        e.preventDefault();
-	        var author = this.refs.author.value.trim();
-	        var text = this.refs.text.value.trim();
-	        if (!text || !author) {
-	            return;
-	        }
-	        this.props.onCommentSubmit({ author: author, text: text });
-	        this.refs.author.value = '';
-	        this.refs.text.value = '';
-	        return;
-	    },
-	    render: function render() {
-	        return React.createElement(
-	            'form',
-	            { className: 'commentForm', onSubmit: this.handleSubmit },
-	            React.createElement('input', { type: 'text', placeholder: 'Your name', ref: 'author' }),
-	            React.createElement('input', { type: 'text', placeholder: 'Say something...', ref: 'text' }),
-	            React.createElement('input', { type: 'submit', value: 'Post' })
-	        );
+	  getInitialState: function getInitialState() {
+	    return {
+	      value: ''
+	    };
+	  },
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    var author = this.refs.author.value.trim();
+	    var text = this.refs.text.value.trim();
+	    //this.refs.author.getDOMNode() 直接获取到组件的 DOM 节点。
+	    this.refs.author.getDOMNode().focus(); //点击post之后获得焦点
+	    if (!text || !author) {
+	      return;
 	    }
+	    this.props.onCommentSubmit({ author: author, text: text });
+	    this.refs.author.value = '';
+	    this.refs.text.value = '';
+	    return;
+	  },
+	  handleChange: function handleChange(e) {
+	    this.setState({ value: e.target.value.substr(0, 5) });
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      'form',
+	      { className: 'commentForm', onSubmit: this.handleSubmit },
+	      React.createElement('input', { type: 'text', placeholder: 'maxLength 5', ref: 'author', value: this.state.value, onChange: this.handleChange }),
+	      React.createElement('input', { type: 'text', placeholder: 'Say something...', ref: 'text' }),
+	      React.createElement('input', { type: 'submit', value: 'Post' }),
+	      React.createElement('input', { type: 'radio', name: 'opt', defaultChecked: true }),
+	      ' Option 1',
+	      React.createElement('input', { type: 'radio', name: 'opt' }),
+	      ' Option 2',
+	      React.createElement(
+	        'select',
+	        { select: true, defaultvalue: 'B' },
+	        React.createElement(
+	          'option',
+	          { value: 'A' },
+	          'Apple'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: 'B' },
+	          'Banana'
+	        ),
+	        React.createElement(
+	          'option',
+	          { value: 'C' },
+	          'Cranberry'
+	        )
+	      )
+	    );
+	  }
 	});
 
 	//my commentBox  ajax动态请求comments数据接口
@@ -232,53 +265,53 @@
 	 可以通过调用 this.setState() 来改变它。当 state 更新之后，组件就会重新渲染自己。
 	*/
 	var CommentBox = React.createClass({
-	    displayName: 'CommentBox',
+	  displayName: 'CommentBox',
 
-	    getInitialState: function getInitialState() {
-	        return { data: [] };
-	    },
-	    componentDidMount: function componentDidMount() {
-	        $.ajax({
-	            url: this.props.url,
-	            dataType: 'json',
-	            cache: false,
-	            success: function (data) {
-	                this.setState({ data: data });
-	            }.bind(this),
-	            error: function (xhr, status, err) {
-	                console.error(this.props.url, status, err.toString());
-	            }.bind(this)
-	        });
-	    },
-	    handleCommentSubmit: function handleCommentSubmit(comment) {
-	        //TO DO ajax to server and refresh the list
-	        $.ajax({
-	            url: this.props.url,
-	            dataType: 'json',
-	            type: 'Get',
-	            data: comment,
-	            success: function (data) {
-	                console.log(data);
-	                this.setState({ data: data }); //根据返回data数据更新this.state进而更新UI
-	            }.bind(this),
-	            error: function (xhr, status, err) {
-	                console.error(this.props.url, status, err.toString());
-	            }.bind(this)
-	        });
-	    },
-	    render: function render() {
-	        return React.createElement(
-	            'div',
-	            { className: 'commentBox' },
-	            React.createElement(
-	                'h1',
-	                null,
-	                'Comments'
-	            ),
-	            React.createElement(CommentList, { data: this.state.data }),
-	            React.createElement(CommentForm, { onCommentSubmit: this.handleCommentSubmit })
-	        );
-	    }
+	  getInitialState: function getInitialState() {
+	    return { data: [] };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    $.ajax({
+	      url: this.props.url,
+	      dataType: 'json',
+	      cache: false,
+	      success: function (data) {
+	        this.setState({ data: data });
+	      }.bind(this),
+	      error: function (xhr, status, err) {
+	        console.error(this.props.url, status, err.toString());
+	      }.bind(this)
+	    });
+	  },
+	  handleCommentSubmit: function handleCommentSubmit(comment) {
+	    //TO DO ajax to server and refresh the list
+	    $.ajax({
+	      url: this.props.url,
+	      dataType: 'json',
+	      type: 'Get',
+	      data: comment,
+	      success: function (data) {
+	        console.log(data);
+	        this.setState({ data: data }); //根据返回data数据更新this.state进而更新UI
+	      }.bind(this),
+	      error: function (xhr, status, err) {
+	        console.error(this.props.url, status, err.toString());
+	      }.bind(this)
+	    });
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'commentBox' },
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Comments'
+	      ),
+	      React.createElement(CommentList, { data: this.state.data }),
+	      React.createElement(CommentForm, { onCommentSubmit: this.handleCommentSubmit })
+	    );
+	  }
 	});
 	ReactDOM.render(React.createElement(CommentBox, { url: '../comments.json' }), document.getElementById('content'));
 
@@ -286,6 +319,103 @@
 	*commentList 是从父组件将listdata传递给子组件进行展示(this.state.data)
 	*commentForm 是从子组件把newcommentdata传给父组件进行ajax请求(绑定回调函数)
 	*/
+
+	var LikedShow = React.createClass({
+	  displayName: 'LikedShow',
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      liked: false
+	    };
+	  },
+	  handleClick: function handleClick() {
+	    return this.setState({ liked: this.state.liked ? false : true });
+	  },
+
+	  render: function render() {
+	    var text = this.state.liked ? 'I liked' : 'I have not liked';
+	    return React.createElement(
+	      'p',
+	      { onClick: this.handleClick },
+	      text
+	    );
+	  }
+
+	});
+	ReactDOM.render(React.createElement(LikedShow, null), document.getElementById('LikedDemo'));
+
+	//props 的spread{...this.props} 可以把props的所有属性都传递进来
+	//{...other}
+
+	var CheackClick = React.createClass({
+	  displayName: 'CheackClick',
+
+	  render: function render() {
+	    return React.createElement(
+	      'a',
+	      this.props,
+	      this.props.children
+	    );
+	  }
+	});
+	ReactDOM.render(React.createElement(
+	  CheackClick,
+	  { href: 'http://www.baidu.com' },
+	  'click me!'
+	), document.getElementById('LinkDemo'));
+
+	/*react实现一个定时器 一个组件需要定期更新  React 提供 生命周期方法 来告知组件创建或销毁的时间。
+	下面来做一个简单的 mixin，使用 setInterval() 并保证在组件销毁时清理定时器。*/
+	var SetIntervalMixin = {
+	  //componentWillMount()在挂载发生之前立即被调用。
+	  componentWillMount: function componentWillMount() {
+	    this.intervals = [];
+	  },
+	  setInterval: function (_setInterval) {
+	    function setInterval() {
+	      return _setInterval.apply(this, arguments);
+	    }
+
+	    setInterval.toString = function () {
+	      return _setInterval.toString();
+	    };
+
+	    return setInterval;
+	  }(function () {
+	    this.intervals.push(setInterval.apply(null, arguments));
+	  }),
+	  //componentWillUnmount()在组件移除和销毁之前被调用。清理工作应该放在这里。
+	  componentWillUnmount: function componentWillUnmount() {
+	    this.intervals.map(clearInterval);
+	  }
+	};
+
+	var TimeClick = React.createClass({
+	  displayName: 'TimeClick',
+
+	  mixins: [SetIntervalMixin], // 引用 mixin
+	  getInitialState: function getInitialState() {
+	    return { myseconds: 0 };
+	  },
+	  tick: function tick() {
+	    this.setState({ myseconds: this.state.myseconds + 1 });
+	  },
+	  //componentDidMount()在挂载结束之后马上被调用。需要DOM节点的初始化操作应该放在这里。
+	  componentDidMount: function componentDidMount() {
+	    this.interval = setInterval(this.tick, 1000); // 调用 mixin 的方法
+	  },
+
+	  render: function render() {
+	    return React.createElement(
+	      'p',
+	      null,
+	      'the seconds is ',
+	      this.state.myseconds
+	    );
+	  }
+
+	});
+	ReactDOM.render(React.createElement(TimeClick, null), document.getElementById('TimeDemo'));
 
 /***/ },
 /* 1 */
